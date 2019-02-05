@@ -1,5 +1,4 @@
 .vscode
-data/data_clean
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
