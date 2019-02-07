@@ -29,7 +29,9 @@ def resize_grey_and_save(filename, output_dir, size):
 
 
 def tt_split_class(directory, train_dir, test_dir, config):
-    filenames = [os.path.join(directory, pict) for pict in os.listdir(directory) if pict.endswith('.jpg')]
+    filenames = [os.path.join(directory, pict) 
+                for pict in os.listdir(directory)
+                if pict.endswith('.jpg')]
 
     filenames.sort()
     random.shuffle(filenames)
@@ -52,7 +54,9 @@ def main(config):
 
     print('Train/Test splitting started')
     # Get the filenames in each directory (train and test)
-    classes = [d for d in os.listdir(original_data) if os.path.isdir(os.path.join(original_data, d))]
+    classes = [d for d in os.listdir(original_data)
+                if os.path.isdir(os.path.join(original_data, d))
+                and d != 'data_clean']
     classes.sort()
     t = tqdm(classes)
     for cl in t:
