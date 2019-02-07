@@ -1,8 +1,17 @@
 {
-    "exp_name": "data",
+    "exp_name": "4bl_batch",
+    "clear_summaries": false,
     
     "seed": 230,
     
     "image_size": 128,
-    "train_percentage": 0.8
+    "train_percentage": 0.8,
+    
+    "learning_rate": 5e-4,
+    "use_dropout_block": false,
+    "dropout_rate_block": 0.6,
+    "use_dropout_dense": true,
+    "dropout_rate_dense": 0.7,
+    
+    "write_histograms": false
 }
