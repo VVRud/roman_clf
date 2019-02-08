@@ -11,6 +11,7 @@ import numpy as np
 from utils.utils import get_args
 from utils.config import process_config
 from utils.dirs import create_dirs
+from shutil import rmtree
 
 
 def resize_grey_and_save(filename, output_dir, size):
@@ -25,7 +26,7 @@ def resize_grey_and_save(filename, output_dir, size):
     array = np.stack((array, ) * 3, axis=-1)
     # Back to image
     image = Image.fromarray(array, )
-    image.save(os.path.join(output_dir, filename.split('/')[-1]))
+    image.save(output_dir)
 
 
 def tt_split_class(directory, train_dir, test_dir, config):
@@ -49,26 +50,30 @@ def main(config):
     random.seed(config.seed if config.seed else 2019)
 
     original_data = os.path.join('..', 'data')
-    train_data_dir = os.path.join('data_clean', 'train')
-    test_data_dir = os.path.join('data_clean', 'test')
+    clean_data = os.path.join('..' ,'data_clean')
 
-    print('Train/Test splitting started')
     # Get the filenames in each directory (train and test)
     classes = [d for d in os.listdir(original_data)
-                if os.path.isdir(os.path.join(original_data, d))
-                and d != 'data_clean']
+                if os.path.isdir(os.path.join(original_data, d)) if not str.startswith(d, '.ipynb')]
     classes.sort()
-    t = tqdm(classes)
+    if os.path.isdir(clean_data):
+        print('\nWas found existing directory with clean data. Aaaaand...')
+        print('\tit was removed... \n\t\tunfortunately... :((\n')
+    
+    t = tqdm(classes)    
     for cl in t:
         t.set_description('CLASS: {}'.format(cl))
+        class_path = os.path.join(original_data, cl)
+        output_path = os.path.join(clean_data, cl)
+        create_dirs([output_path])
 
-        tr_dir = os.path.join(train_data_dir, cl)
-        ts_dir = os.path.join(test_data_dir, cl)
-        create_dirs([tr_dir, ts_dir])
+        for img in tqdm(os.listdir(class_path)):
+            f_name = os.path.join(class_path, img)
+            out_name = os.path.join(output_path, img)
+            resize_grey_and_save(f_name, out_name, config.image_size)
 
-        tt_split_class(os.path.join(original_data, cl), tr_dir, ts_dir, config)
-
-    print('\n\nDone building dataset')
+    t.close()
+    print('\n\nDone cleaning data')
 
 if __name__ == '__main__':
     try:
