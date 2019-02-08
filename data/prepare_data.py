@@ -119,7 +119,7 @@ def tt_split_class(directory, train_dir, test_dir, train_percentage):
     filenames = [pict for pict in os.listdir(directory)
                 if pict.endswith('.jpg')]
 
-    random.shuffle(filenames)
+    np.random.shuffle(filenames)
     split = int(len(filenames) * train_percentage)
     train = filenames[:split]
     test  = filenames[split:]
@@ -158,7 +158,7 @@ def main(config):
         augment_class(output_path, cl, config.number_to_have)
 
         train_path = os.path.join(splitted_data, 'train', cl)
-        test_path = os.path.join(output_path, 'test', cl)
+        test_path = os.path.join(splitted_data, 'test', cl)
         tt_split_class(output_path, train_path, test_path, config.train_percentage)
 
     t.close()
