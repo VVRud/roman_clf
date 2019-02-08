@@ -141,10 +141,11 @@ def main(config):
     classes = [d for d in os.listdir(original_data)
                 if os.path.isdir(os.path.join(original_data, d)) and not str.startswith(d, '.ipynb')]
     classes.sort()
-    if os.path.isdir(clean_data):
-        print('\nWas found existing directory with clean data. Aaaaand...')
-        print('\tit was removed... \n\t\tunfortunately... :((\n')
+    if os.path.isdir(clean_data) and os.path.isdir(splitted_data):
+        print('\nWas found existing directory with clean and splitted data. Aaaaand...')
+        print('\tUnfortunately, they was removed... \n\t\tcompletely removed...\n')
         rmtree(clean_data)
+        rmtree(splitted_data)
     
     t = tqdm(classes)    
     for cl in t:
