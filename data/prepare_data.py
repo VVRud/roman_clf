@@ -59,6 +59,7 @@ def main(config):
     if os.path.isdir(clean_data):
         print('\nWas found existing directory with clean data. Aaaaand...')
         print('\tit was removed... \n\t\tunfortunately... :((\n')
+        rmtree(clean_data)
     
     t = tqdm(classes)    
     for cl in t:
