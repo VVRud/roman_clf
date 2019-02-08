@@ -5,10 +5,11 @@
     "seed": 230,
     
     "image_size": 128,
+    "number_to_have": 1250
     "train_percentage": 0.8,
-    
     "learning_rate": 5e-4,
     "use_dropout_block": false,
+    
     "dropout_rate_block": 0.6,
     "use_dropout_dense": true,
     "dropout_rate_dense": 0.7,
