@@ -4,5 +4,6 @@
     "seed": 230,
     
     "image_size": 128,
-    "train_percentage": 0.8
+    "train_percentage": 0.8,
+    "number_to_have": 1250
 }
