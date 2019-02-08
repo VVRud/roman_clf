@@ -8,9 +8,56 @@ from PIL import Image
 from tqdm import tqdm
 import numpy as np
 
+import cv2
+from imgaug import augmenters as iaa
+import imgaug as ia
+
 from utils.utils import get_args
 from utils.config import process_config
 from utils.dirs import create_dirs
+from shutil import rmtree, copyfile
+
+
+# Augmentation variables
+sometimes = lambda aug: iaa.Sometimes(0.3, aug)
+aug_list = [
+    sometimes(
+        iaa.OneOf([
+            iaa.Crop(px=(
+                0, 5
+            )),  # crop images from each side by 0 to 16px (randomly chosen)
+            iaa.CropAndPad(percent=(-0.05, 0.05)),
+            iaa.PiecewiseAffine(scale=(0.01, 0.03)),
+            iaa.Affine(
+                scale={
+                    "x": (0.8, 1.0),
+                    "y": (0.8, 1.0)
+                },
+                translate_percent={
+                    "x": (-0.1, 0.1),
+                    "y": (-0.1, 0.1)
+                },
+                shear=(-8, 8),
+                order=[0, 1],
+                cval=255,
+                mode=ia.ALL)
+        ])),
+    sometimes(
+        iaa.OneOf([
+            iaa.GaussianBlur(sigma=(0, 0.1)),
+            iaa.AverageBlur(k=(2, 3)),
+            iaa.MedianBlur(k=(1, 3)),
+            iaa.Dropout(p=(0, 0.005)),
+            iaa.Add((-5, 5)),
+            iaa.ElasticTransformation(alpha=(0, 1.0), sigma=0.005),
+            iaa.AdditiveGaussianNoise(scale=(0, 0.02 * 255))
+        ])),
+    iaa.ContrastNormalization((1.0, 2.0)),
+    iaa.OneOf([
+        iaa.Sharpen(alpha=(0, 1.0), lightness=(0.75, 1.5)),
+        iaa.Emboss(alpha=(0, 1.0), strength=(0, 2.0)),
+    ]),
+]
 
 
 def resize_grey_and_save(filename, output_dir, size):
@@ -25,46 +72,97 @@ def resize_grey_and_save(filename, output_dir, size):
     array = np.stack((array, ) * 3, axis=-1)
     # Back to image
     image = Image.fromarray(array, )
-    image.save(os.path.join(output_dir, filename.split('/')[-1]))
+    image.save(output_dir)
 
 
-def tt_split_class(directory, train_dir, test_dir, config):
-    filenames = [os.path.join(directory, pict) for pict in os.listdir(directory) if pict.endswith('.jpg')]
+def clear_class(class_path, output_path):
+    for img in tqdm(os.listdir(class_path), desc='Resizing'):
+        f_name = os.path.join(class_path, img)
+        out_name = os.path.join(output_path, img)
+        resize_grey_and_save(f_name, out_name, config.image_size)
 
-    filenames.sort()
+
+def augment_class(directory, cl, number_to_have):
+    transformations = aug_list.copy()
+    if cl in ['1', '2', '3', '5']:
+        transformations.append(iaa.Fliplr(0.5))
+    if cl in ['1', '2', '3']:
+        transformations.append(iaa.Flipud(0.2))
+    seq = iaa.Sequential(transformations, random_order=True)
+    
+    files = os.listdir(directory)
+    
+    indicies = [int(name[:-4]) for name in files]
+    indicies.sort()
+    index = indicies[-1] + 1
+    
+    images = np.array([cv2.imread(os.path.join(directory, fname)) for fname in files])
+    steps = int(np.ceil((number_to_have - len(files)) / len(files)))
+    t = tqdm(range(steps))
+    for step in t:
+        if step + 1 == steps:
+            ind = list(range(len(files)))
+            np.random.shuffle(ind)
+            to_get = number_to_have - (step * len(files) + len(files))
+            images = images[ind[:to_get]]
+        t.set_description('Augmenting...')
+        images_aug = seq.augment_images(images)
+        t.set_description('Saving...')
+        for image in images_aug:
+            cv2.imwrite(os.path.join(directory, str(index) + '.jpg'), image)
+            index += 1
+    t.close()
+
+
+def tt_split_class(directory, train_dir, test_dir, train_percentage):
+    create_dirs([train_dir, test_dir])
+    filenames = [pict for pict in os.listdir(directory)
+                if pict.endswith('.jpg')]
+
     random.shuffle(filenames)
-
-    split = int(len(filenames) * config.train_percentage)
+    split = int(len(filenames) * train_percentage)
     train = filenames[:split]
     test  = filenames[split:]
 
-    for data, path in [(train, train_dir), (test, test_dir)]:
-        for f in tqdm(data):
-            resize_grey_and_save(f, path, config.image_size)
+    for t_set, path_new in [(train, train_dir), (test, test_dir)]:
+        for fname in t_set:
+            copyfile(os.path.join(directory, fname), os.path.join(path_new, fname))
 
 
 def main(config):
     random.seed(config.seed if config.seed else 2019)
 
     original_data = os.path.join('..', 'data')
-    train_data_dir = os.path.join('data_clean', 'train')
-    test_data_dir = os.path.join('data_clean', 'test')
+    clean_data = os.path.join('..' ,'data_clean')
+    splitted_data = os.path.join('..', 'data_splitted')
+    create_dirs([original_data, clean_data, splitted_data])
 
-    print('Train/Test splitting started')
     # Get the filenames in each directory (train and test)
-    classes = [d for d in os.listdir(original_data) if os.path.isdir(os.path.join(original_data, d))]
+    classes = [d for d in os.listdir(original_data)
+                if os.path.isdir(os.path.join(original_data, d)) and not str.startswith(d, '.ipynb')]
     classes.sort()
-    t = tqdm(classes)
+    if os.path.isdir(clean_data) and os.path.isdir(splitted_data):
+        print('\nWas found existing directory with clean and splitted data. Aaaaand...')
+        print('\tUnfortunately, they was removed... \n\t\tcompletely removed...\n')
+        rmtree(clean_data)
+        rmtree(splitted_data)
+    
+    t = tqdm(classes)    
     for cl in t:
         t.set_description('CLASS: {}'.format(cl))
+        class_path = os.path.join(original_data, cl)
+        output_path = os.path.join(clean_data, cl)
+        create_dirs([output_path])
 
-        tr_dir = os.path.join(train_data_dir, cl)
-        ts_dir = os.path.join(test_data_dir, cl)
-        create_dirs([tr_dir, ts_dir])
+        clear_class(class_path, output_path)
+        augment_class(output_path, cl, config.number_to_have)
 
-        tt_split_class(os.path.join(original_data, cl), tr_dir, ts_dir, config)
+        train_path = os.path.join(splitted_data, 'train', cl)
+        test_path = os.path.join(output_path, 'test', cl)
+        tt_split_class(output_path, train_path, test_path, config.train_percentage)
 
-    print('\n\nDone building dataset')
+    t.close()
+    print('\n\nDone cleaning data')
 
 if __name__ == '__main__':
     try:
