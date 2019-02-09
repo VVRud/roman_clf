@@ -1,4 +1,7 @@
-weights
+#Big data folders
+data_clean
+data_splitted
+
 .vscode
 
 # Byte-compiled / optimized / DLL files
