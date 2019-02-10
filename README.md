@@ -171,7 +171,7 @@ It is easy, isn't it? :)
 
 To run the model follow instructions below.
 
-Open and run jupyter notebook ```Best_Model.ipynb```. 
+Open and run jupyter notebook ``` roman_clf/src/Best_Model.ipynb```. 
 All necessary libraries will be imported and configs will be set up automatically. All you need to do is just click `run` for all cells.
 
 Model class is formatted into the notebook, as an example, but can be moved to a different file if it would be necessary.
