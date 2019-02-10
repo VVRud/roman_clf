@@ -179,6 +179,19 @@ Model class is formatted into the notebook, as an example, but can be moved to a
 
 To run the model you will need a lot of computation power. If you don't have it, try using a batch size of 1, it should help.
 
+## Results
+After being trained for 1050 epochs, out CNN showed good results: 
+
+`Train loss:` 1.2800413370	
+
+`Train accuracy:` **0.9940649271**
+
+
+
+`Test loss:` 1.2813329697
+
+`Test accuracy:` **0.9926757812**
+
 ## Authors
 
 - [Vladyslav Rudenko](https://github.com/vvrud)
