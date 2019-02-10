@@ -10,7 +10,8 @@
 6. [Instuctions to run the model](#instuctions-to-run-the-model)
    1. [Data preparation](#data-preparation)
    2. [Running model](#running-model)
-7. [Authors](#authors)
+7. [Results](#results)
+8. [Authors](#authors)
 
 ## Config
 
@@ -180,13 +181,14 @@ Model class is formatted into the notebook, as an example, but can be moved to a
 To run the model you will need a lot of computation power. If you don't have it, try using a batch size of 1, it should help.
 
 ## Results
+
 After being trained for 1050 epochs, our CNN showed next results: 
 
-`Train loss:` 1.2800413370	
+`Train loss:` 1.280041337
 
 `Train accuracy:` **0.9940649271**
 
-
+<br/>
 
 `Test loss:` 1.2813329697
 
