@@ -83,6 +83,7 @@ def resize_grey_and_save(filename, output_dir, size):
 
     :return None
     """
+
     image = Image.open(filename)
     # Converting to black and white data
     image = image.convert('L')
@@ -107,6 +108,7 @@ def clean_class(class_path, output_path, image_size):
 
     :return None
     """
+    
     for img in tqdm(os.listdir(class_path), desc='Resizing'):
         f_name = os.path.join(class_path, img)
         out_name = os.path.join(output_path, img)
@@ -177,6 +179,7 @@ def tt_split_class(directory, train_dir, test_dir, train_percentage):
 
     :return None
     """
+    
     create_dirs([train_dir, test_dir])
     # Read filenames of images to split into train and test.
     filenames = [pict for pict in os.listdir(directory)
