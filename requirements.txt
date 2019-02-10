@@ -1,3 +1,8 @@
+pillow
+tqdm
+numpy
+opencv-python
+imgaug
 tensorflow
-albumentations
-sklearn
+matplotlib
+scikit-learn
