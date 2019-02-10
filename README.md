@@ -1,4 +1,4 @@
-# Roman digits classifier
+# Dataset for roman digits classification
 
 **You are in _DATASET brench_**
 
@@ -27,7 +27,7 @@ Parameters specific to data:
 For example, folder `data/1` contains all images marked as class `1`.
 
 `data_clean` folder contains resized, grayscaled and augmented images, splitted by classes. Number of images in single class folder must be set in config file.  
-For example, folder `data_clean/1` contains resized, grayscaled and augmented images? marked as class `1`.
+For example, folder `data_clean/1` contains resized, grayscaled and augmented images, marked as class `1`.
 
 `data_splitted` folder contains data, splitted into train and test datasets. Number of single class in train dataset must be set in config file.  
 For example, `data_clean/train/1` contains train images, marked as class `1`.
