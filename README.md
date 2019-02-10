@@ -24,7 +24,7 @@ Parameters specific for data generation:
 
 Parameters specifict for model:
 
-- `exp_name` - defines model name and paths to write summaries and weights in.
+- `exp_name` - defines the model name and paths to write summaries and weights in.
 - `learning rate` - learning rate to train model with.
 - `use_dropout_block` - if to use dropout between convolutions.
 - `use_dropout_dense` - if to use dropout after dense layer.
@@ -34,20 +34,20 @@ Parameters specifict for model:
 
 ## Data structure
 
-`data` folder contains original _'dirty'_ data of roman images, splitted by classes. Number of images in single class folder can be any from 0 to Infinity.  
+`data` folder contains original _'dirty'_ data of Roman images, split by classes. The number of images in a single class folder can be any from 0 to Infinity.  
 For example, folder `data/1` contains all images marked as class `1`.
 
-`data_clean` folder contains resized, grayscaled and augmented images, splitted by classes. Number of images in single class folder must be set in config file.  
-For example, folder `data_clean/1` contains resized, grayscaled and augmented images, marked as class `1`.
+`data_clean` folder contains resized, grayscaled and augmented images, split by classes. The number of images in a single class folder must be set in the config file.  
+For example, the folder `data_clean/1` contains resized, grayscaled and augmented images, marked as class `1`.
 
-`data_splitted` folder contains data, splitted into train and test datasets. Number of single class in train dataset must be set in config file.  
+`data_splitted` folder contains data, split into train and test datasets. The number of single class in train dataset must be set in the config file.  
 For example, `data_clean/train/1` contains train images, marked as class `1`.
 
 ## Data desciption and cleaning process
 
-It was decided to create about 120 images for each class (roman numbers from 1 to 8) and augment that data to get more variative dataset, so that neural network could be more robust to different variations of data. To achieve a goal of 120 images per class, every team member wrote his variations of roman digits with his/her unique handwriting multiple times. Later there were deleted images, which were wery dirty and neural network was not able to learn specific fetures for them.
+It was decided to create about 120 images for each class (roman numbers from 1 to 8) and augment that data to get a more versatile dataset so that neural network could be more robust to different variations of data. To achieve a goal of 120 images per class, every team member wrote his variations of roman digits with his/her unique handwriting multiple times. Later there were deleted images, which were very dirty and neural network was not able to learn specific features for them.
 
-Process of data cleaning includes resizing images, grayscaling them and saving to folder `data_clean`.
+The process of data cleaning includes resizing images, grayscaling them and saving to folder `data_clean`.
 
 ## Data augmentation and splitting
 
@@ -55,24 +55,24 @@ Data augmentation contains applying multiple transformations to data, such as:
 
 - Cropping;
 - Padding;
-- Bluring;
+- Blurring;
 - Different affine transformations
 
-Data will be generated into folder `data_clean/_class_` near existing images.
+Data will be generated into the folder `data_clean/_class_` near existing images.
 
-Splitting data contains process of reading filenames of images and resaving them into folder `data_splitted/(train or test)/_class_`.
+Splitting data contains the process of reading filenames of images and resaving them into folder `data_splitted/(train or test)/_class_`.
 
 ## Model structure
 
-We had a task of image classification, so that it was decided to use convolutional network with some tricks and whistles.  
-Main graph of the model is shown below.
+We had a task of image classification so that it was decided to use a convolutional network with some tricks and whistles.  
+The main graph of the model is shown below.
 
 <details> 
     <summary><b>Graph</b></summary>
         <img src="figures/graph.png" width="100%"/>
 </details>
 
-Our model consists of 5 blocks, where `block_1` - `block_4` are convolution blocks and `dense` block contains only dense layers. Architectures of each block separately is described below.
+Our model consists of 5 blocks, where `block_1` - `block_4` are convolution blocks and `dense` block contains only dense layers. Architectures of each block are separately described below.
 
 ### Blocks 1-3
 
