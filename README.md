@@ -100,8 +100,8 @@ Conv2D -> BatchNormalization -> ReLU -> Dropout (if necessary) ->
 -> Conv2D -> BatchNormalization -> ReLU -> MaxPooling
 ```
 
-Convolution kernels have sizes of 3x3. Strides of the firs one are 1x1 and the second one are 2x2.  
-Max-pooling layer have size and stride of 2x2.
+Convolution kernels have sizes of 3x3. The strides of the first one is 1x1 and the second one is 2x2.  
+Max-pooling layer has size and stride of 2x2.
 
 <details> 
     <summary><b>Block structure</b></summary>
@@ -158,7 +158,7 @@ pip install -r requirements.txt
 
 ### Data preparation
 
-This script will do all the stuff related to data preparaion fast and clean. To run it follow instructions below.
+This script will do all the stuff related to data preparation fast and clean. To run it follow instructions below.
 
 ```sh
 cd path/to/project/roman_clf
@@ -171,11 +171,11 @@ It is easy, isn't it? :)
 
 To run the model follow instructions below.
 
-Open jupyter notebook and run Best_Model.ipynb. All necessary libraries will be imported and configs will be setted up. All you need to do is just click `run` for the cells you want to.
+Open jupyter notebook and run Best_Model.ipynb. All necessary libraries will be imported and configs will be set up. All you need to do is just click `run` for the cells you want to.
 
 Model class is formatted into the notebook, as an example, but can be moved to a different file if it would be necessary.
 
-To run the model you will need a lot of computation power. If you don't have it, try using batch size of 1, it should help.
+To run the model you will need a lot of computation power. If you don't have it, try using a batch size of 1, it should help.
 
 ## Authors
 
