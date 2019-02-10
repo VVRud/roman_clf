@@ -22,7 +22,7 @@ Parameters specific for data generation:
 - `image_size` - size of the side for resulting image.
 - `number_to_have` - number of images to have in `data_clean/_class_` directory.
 
-Parameters specifict for model:
+Parameters specific for model:
 
 - `exp_name` - defines the model name and paths to write summaries and weights in.
 - `learning rate` - learning rate to train model with.
@@ -45,7 +45,7 @@ For example, `data_clean/train/1` contains train images, marked as class `1`.
 
 ## Data desciption and cleaning process
 
-It was decided to create about 120 images for each class (roman numbers from 1 to 8) and augment that data to get a more versatile dataset so that neural network could be more robust to different variations of data. To achieve a goal of 120 images per class, every team member wrote his variations of roman digits with his/her unique handwriting multiple times. Later there were deleted images, which were very dirty and neural network was not able to learn specific features for them.
+It was decided to create about 120 images for each class (roman numbers from 1 to 8) and augment that data to get a more versatile dataset so that neural network could be more robust to different variations of data. To achieve a goal of 120 images per class, every team member wrote his variations of roman digits with his/her unique handwriting multiple times.
 
 The process of data cleaning includes resizing images, grayscaling them and saving to folder `data_clean`.
 
@@ -72,7 +72,7 @@ The main graph of the model is shown below.
         <img src="figures/graph.png" width="100%"/>
 </details>
 
-Our model consists of 5 blocks, where `block_1` - `block_4` are convolution blocks and `dense` block contains only dense layers. Architectures of each block are separately described below.
+Our model consists of 5 blocks, where `block_1` - `block_4` are convolution blocks and `dense` block containing only dense layers. Architectures of each block are separately described below.
 
 ### Blocks 1-3
 
