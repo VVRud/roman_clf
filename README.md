@@ -180,7 +180,7 @@ Model class is formatted into the notebook, as an example, but can be moved to a
 To run the model you will need a lot of computation power. If you don't have it, try using a batch size of 1, it should help.
 
 ## Results
-After being trained for 1050 epochs, out CNN showed good results: 
+After being trained for 1050 epochs, our CNN showed next results: 
 
 `Train loss:` 1.2800413370	
 
