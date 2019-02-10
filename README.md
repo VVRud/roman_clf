@@ -7,7 +7,7 @@
 3. [Data description and cleaning process](#data-description-and-cleaning-process)
 4. [Data augmentation and splitting](#data-augmentation-and-splitting)
 5. [Model structure](#model-structure)
-6. [Instuctions to run the model](#instuctions-to-run-the-model)
+6. [Instructions to run the model](#instructions-to-run-the-model)
    1. [Data preparation](#data-preparation)
    2. [Running model](#running-model)
 7. [Results](#results)
@@ -44,7 +44,7 @@ For example, the folder `data_clean/1` contains resized, grayscaled and augmente
 `data_splitted` folder contains data, split into train and test datasets. The number of single class in train dataset must be set in the config file.  
 For example, `data_clean/train/1` contains train images, marked as class `1`.
 
-## Data desciption and cleaning process
+## Data description and cleaning process
 
 It was decided to create about 120 images for each class (roman numbers from 1 to 8) and augment that data to get a more versatile dataset so that neural network could be more robust to different variations of data. To achieve a goal of 120 images per class, every team member wrote his variations of roman digits with his/her unique handwriting multiple times.
 
@@ -148,7 +148,7 @@ Calculated input and output sizes of each layer are under the spoiler.
 
 </details>
 
-## Instuctions to run the model
+## Instructions to run the model
 
 Our project is based on some libraries you might not have. To ensure everything is installed and install missed packages run next commands.
 
